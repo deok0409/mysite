@@ -203,6 +203,21 @@ def comment_modify_question(request, comment_id):
     context = {'form': form}
     return render(request, 'pybo/comment_form.html', context)
 
+@login_required(login_url='common:login')
+def comment_delete_question(request, comment_id):
+    """
+
+    pybo 질문 댓글 삭제
+
+    """
+
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if request.user != comment.author:
+        messages.error(request, '댓글삭제권한이 없습니다')
+        return redirect('pybo:detail', question_id=comment.question.id)
+    else:
+        comment.delete()
+    return redirect('pybo:detail', question_id=comment.question.id)
 # 제네릭 뷰
 #class IndexView(generic.ListView):
 #   """
