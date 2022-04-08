@@ -41,29 +41,7 @@ def detail(request, question_id):
     context = {'question' : question}
     return render(request, 'pybo/question_detail.html', context)
 
-#answer_create함수
-@login_required(login_url='common:login')
-def answer_create(request, question_id):
-    """
 
-    pybo 답변 등록
-
-    """
-
-    question = get_object_or_404(Question, pk=question_id)
-    if request.method == "POST":
-        form = AnswerForm(request.POST)
-        if form.is_valid():
-            answer = form.save(commit=False)
-            answer.author = request.user  # 추가한 속성 author 적용
-            answer.create_date = timezone.now()
-            answer.question = question
-            answer.save()
-            return redirect('pybo:detail', question_id=question.id)
-    else:
-        form = AnswerForm()
-    context = {'question':question, 'form': form}
-    return render(request, 'pybo/question_detail.html', context)
 
 @login_required(login_url='common:login')
 def question_create(request):
@@ -117,6 +95,30 @@ def question_delete(request, question_id):
         return redirect('pybo:detail', question_id=question.id)
     question_delete()
     return redirect('pybo:index')
+
+#answer_create함수
+@login_required(login_url='common:login')
+def answer_create(request, question_id):
+    """
+
+    pybo 답변 등록
+
+    """
+
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.author = request.user  # 추가한 속성 author 적용
+            answer.create_date = timezone.now()
+            answer.question = question
+            answer.save()
+            return redirect('pybo:detail', question_id=question.id)
+    else:
+        form = AnswerForm()
+    context = {'question':question, 'form': form}
+    return render(request, 'pybo/question_detail.html', context)
 
 # 답변 수정
 @login_required(login_url='common:login')
