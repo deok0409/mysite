@@ -19,6 +19,13 @@ urlpatterns = [
          name='comment_modify_question'),
     path('comment/delete/question/<int:comment_id>/', views.comment_delete_question,
          name='comment_delete_question'),
+    path('comment/create/answer/<int:answer_id>/', views.comment_create_answer,
+         name='comment_create_answer'),
+    path('comment/modify/answer/<int:comment_id>/', views.comment_modify_answer,
+         name='comment_modify_answer'),
+    path('comment/delete/answer/<int:comment_id>/', views.comment_delete_answer,
+         name='comment_delete_answer'),
+
     #제네릭 뷰
     #제네릭 뷰는 편리한 기능이지만 초심자에게는 혼란을 줄 수 있다
     #단점: 복잡한 문제를 해결할 때 오히려 개발 난이도가 높아진다
